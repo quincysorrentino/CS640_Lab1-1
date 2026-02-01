@@ -32,7 +32,11 @@ public class Iperfer {
         if (mode.equals("-c")) {
             // Client mode
             System.out.println("Client Mode Selected");
-            // Client.run(args);
+            String hostname = args[2];
+            int port = Integer.parseInt(args[4]);
+            int time = Integer.parseInt(args[6]);
+
+            //Client.run(hostname=hostname, port=port, time=time);
 
         } else if (mode.equals("-s")) {
             // Server mode
