@@ -57,7 +57,7 @@ public class Client {
                 try {
                     socket.close();
                 } catch (IOException e) {
-                    // Ignore
+                    // Ignore 
                 }
             }
         }
