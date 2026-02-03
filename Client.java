@@ -8,11 +8,10 @@ public class Client {
         OutputStream out = null;
         
         try {
-            // Establish connection
             socket = new Socket(hostname, port);
             out = socket.getOutputStream();
             
-            // Prepare data chunk of 1000 bytes (all zeros)
+            // Prepare data chunk of 1000 bytes
             byte[] data = new byte[1000];
             
             long totalBytesSent = 0;
@@ -21,45 +20,36 @@ public class Client {
             // Convert seconds to milliseconds
             long endTime = startTime + (time * 1000L); 
             
-            // Send data as quickly as possible for 'time' seconds
             while (System.currentTimeMillis() < endTime) {
                 out.write(data);
                 totalBytesSent += 1000;
             }
-            
-            // // Calculate statistics
-            // long actualDuration = System.currentTimeMillis() - startTime;
-            // double durationInSeconds = actualDuration / 1000.0;
-            
-            // // Convert to kilobytes (1 KB = 1000 bytes)
-            // double kilobytesSent = totalBytesSent / 1000.0;
-            
-            // // Convert to megabits per second (1 B = 8 bits, 1 MB = 1000 KB)
-            // double megabitsSent = (totalBytesSent * 8.0) / 1000000.0;
-            // double rate = megabitsSent / durationInSeconds;
-            
-            // // Print summary
-            // System.out.printf("sent=%.0f KB rate=%.3f Mbps\n", kilobytesSent, rate);
-            
-        } catch (IOException e) {
-            System.err.println("Error: " + e.getMessage());
-            System.exit(1);
-        } finally {
+
             // Close resources
             if (out != null) {
                 try {
                     out.close();
-                } catch (IOException e) {
-                    // Ignore
-                }
+                } catch (IOException e) {}
             }
             if (socket != null) {
                 try {
                     socket.close();
-                } catch (IOException e) {
-                    // Ignore 
-                }
+                } catch (IOException e) {}
             }
+
+            // Calculate statistics
+
+            // Convert to kilobytes
+            double total_kb = totalBytesSent / 1000.0;
+
+            // Convert to Megabits then calculate rate
+            double rate_Mbps = ((totalBytesSent * 8.0) / (1000000.0) / time);
+
+            System.out.printf("sent=%.0f KB rate=%.3f Mbps\n", total_kb, rate_Mbps);
+            
+        } catch (IOException e) {
+            System.err.println("Error: " + e.getMessage());
+            System.exit(1);
         }
     }
 }
