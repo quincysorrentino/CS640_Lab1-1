@@ -9,43 +9,81 @@ public class Iperfer {
         - You may assume that parameters are always passed in this order
     */
 
-    private static void port_check(int port_num) {
-        if ((port_num < 1024) || (port_num > 65535)) {
-            System.out.println("Error: port number must be in the range 1024 to 65535");
+    private static int parseAndValidatePort(String portStr) {
+        try {
+            int port = Integer.parseInt(portStr);
+            if (port < 1024 || port > 65535) {
+                System.out.println("Error: port number must be in the range 1024 to 65535");
+                System.exit(1);
+            }
+            return port;
+
+        } catch (NumberFormatException e) {
+            System.out.println("Error: port number must be an integer");
             System.exit(1);
-        } 
+            return -1;
+        }
+    }
+
+    private static int parseAndValidateTime(String timeStr) {
+        try {
+            int time = Integer.parseInt(timeStr);
+            if (time <= 0) {
+                System.out.println("Error: time must be a positive integer");
+                System.exit(1);
+            }
+            return time;
+
+        } catch (NumberFormatException e) {
+            System.out.println("Error: time must be an integer");
+            System.exit(1);
+            return -1;
+        }
     }
 
     public static void main(String[] args) {
-        // Check if there are arguments
-        if (args.length != 7) {
+        // Arg count
+        if (args.length < 1) {
             System.out.println("Error: missing or additional arguments");
             System.exit(1);
         }
 
-        // Do port check
-        port_check(Integer.parseInt(args[4]));
-
         // Parse mode
         String mode = args[0];
-
-        if (mode.equals("-c")) {
-            // Client mode
-            System.out.println("Client Mode Selected");
-            String hostname = args[2];
-            int port = Integer.parseInt(args[4]);
-            int time = Integer.parseInt(args[6]);
-
-            //Client.run(hostname=hostname, port=port, time=time);
-
-        } else if (mode.equals("-s")) {
-            // Server mode
-            System.out.println("Server Mode Selected");
-            // Server.run(args);
-
-        } else {
+        if (!mode.equals("-c") && !mode.equals("-s")) {
             System.out.println("Error: missing or additional arguments");
             System.exit(1);
+        }
+
+        if (mode.equals("-c")) {
+            // Client mode: -c -h <hostname> -p <port> -t <time>
+            if (args.length != 7 || !args[1].equals("-h") || !args[3].equals("-p") || !args[5].equals("-t")) {
+                System.out.println("Error: missing or additional arguments");
+                System.exit(1);
+            }
+            
+            String hostname = args[2];
+            int port = parseAndValidatePort(args[4]);
+            int time = parseAndValidateTime(args[6]);
+
+            // Run client
+            // print is just for testing 
+            System.out.println("Client Mode Selected");
+            //Client.run(hostname, port, time);
+
+        } else {
+            // Server mode: -s -p <port>
+            if (args.length != 3 || !args[1].equals("-p")) {
+                System.out.println("Error: missing or additional arguments");
+                System.exit(1);
+            }
+            
+            int port = parseAndValidatePort(args[2]);
+
+            // Run server
+            // print is just for testing
+            System.out.println("Server Mode Selected");
+            //Server.run(port);
         }
     }
 }
