@@ -8,6 +8,8 @@ public class Server {
 	}
 
 	public static void run (String[] args) {
+		int listen_port = 0;
+
 		if (args.length != 3) {
 			error();
 		}
@@ -17,7 +19,7 @@ public class Server {
 		}
 		
 		try {
-			int listen_port = Integer.parseInt(args[2]);
+			listen_port = Integer.parseInt(args[2]);
 		}
         catch (Exception e) {
         	error();

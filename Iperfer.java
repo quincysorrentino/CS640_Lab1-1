@@ -21,7 +21,7 @@ public class Iperfer {
         } else if (mode.equals("-s")) {
             // Server mode
             System.out.println("Server Mode Selected");
-            // Server.run(args);
+            Server.run(args);
 
         } else {
             System.out.println("Error: missing or additional arguments");
