@@ -10,6 +10,7 @@ public class Client {
         try {
             socket = new Socket(hostname, port);
             out = socket.getOutputStream();
+            System.out.println("Sending traffic to " + hostname + " on port " + port);
             
             // Prepare data chunk of 1000 bytes
             byte[] data = new byte[1000];
