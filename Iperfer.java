@@ -67,9 +67,7 @@ public class Iperfer {
             int time = parseAndValidateTime(args[6]);
 
             // Run client
-            // print is just for testing 
-            System.out.println("Client Mode Selected");
-            //Client.run(hostname, port, time);
+            Client.run(hostname, port, time);
 
         } else {
             // Server mode: -s -p <port>
@@ -81,9 +79,7 @@ public class Iperfer {
             int port = parseAndValidatePort(args[2]);
 
             // Run server
-            // print is just for testing
-            System.out.println("Server Mode Selected");
-            //Server.run(port);
+            Server.run(port);
         }
     }
 }
